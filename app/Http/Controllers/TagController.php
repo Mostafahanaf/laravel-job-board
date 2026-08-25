@@ -2,45 +2,67 @@
 
 namespace App\Http\Controllers;
 
-
-use App\Models\tag;
-use App\Models\Post;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 
 class TagController extends Controller
 {
-    function index(){
-        $data = Tag::all();
-
-        return view('tag.index', ['tags' => $data, 'Pagetitle' => 'Tags']);
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        $tags = Tag::paginate(10);
+        return view('tag.index', ['tags' => $tags, 'Pagetitle' => 'Tags']);
     }
 
-    function create(){
-        Tag::create([
-            'title' => 'css',
-        ]);
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        return view('tag.create', ['Pagetitle' => 'Create New Tag']);
+    }
 
-        return redirect('/tags');
-        }
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        //@todo: validate the request data and store the new tag
+    }
 
-        function testmanytomany(){
-            // $post4 = Post::find(4);
-            // $post5 = Post::find(5);
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        $tags = Tag::find($id);
+        return view('tag.show', ['tag' => $tags, 'Pagetitle' => 'Tag Details']);
+    }
 
-            // $post4->tags()->attach([1,3]);
-            // $post5->tags()->attach([2]);
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
+    {
+        $tags = Tag::find($id);
+        return view('tag.edit', ['tag' => $tags, 'Pagetitle' => 'Edit Tag']);
+    }
 
-            // return response()->json(([
-            //     'post4' => $post4->tags,
-            //     'post5' => $post5->tags
-            // ]));
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+        //@todo: validate the request data and update the tag
+    }
 
-            $tag = Tag::find(2);
-            $tag->posts()->attach([2]);
-            return response()->json(([
-                'tag' => $tag->title,
-                'posts' => $tag->posts
-            ]));
-        }
-
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        //@todo: find the tag by id and delete it
+    }
 }
