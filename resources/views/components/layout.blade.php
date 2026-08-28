@@ -19,7 +19,8 @@
                   <div class="ml-10 flex items-baseline space-x-4">
                     <x-nav-link href="/" :active="request()->is(patterns: '/')">Dashboard</x-nav-link>
                     <x-nav-link href="/about" :active="request()->is(patterns: '/about')">About</x-nav-link>
-                    <x-nav-link href="/contact" :active="request()->is(patterns: '/contact')">Contact us</x-nav-link>
+                    <x-nav-link href="/contact" :active="request()->is(patterns: '/contact')">Contact</x-nav-link>
+                    <x-nav-link href="/blog" :active="request()->is(patterns: '/blog')">Blog</x-nav-link>
                   </div>
                 </div>
               </div>

@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Comment;
+use App\Models\Post;
+use App\Http\Requests\commentRequest;
+use Illuminate\Support\Facades\Redirect;
 
 class CommentController extends Controller
 {
@@ -12,8 +15,7 @@ class CommentController extends Controller
      */
     public function index()
     {
-        $comments = Comment::paginate(10);
-        return view('Comment.index', ['comments' => $comments, 'Pagetitle' => 'Comments']);
+        return Redirect(to: '/blog');
     }
 
     /**
@@ -21,16 +23,26 @@ class CommentController extends Controller
      */
     public function create()
     {
-        return view('Comment.create', ['Pagetitle' => ' create new Comments']);
+        return Redirect(to: '/blog');
     }
 
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CommentRequest $request)
     {
-        //@todo: validate the request data
+       $post = post::findorfail($request->input('post_id'));
+
+       $comment = new Comment();
+
+       $comment->author = $request->input('author');
+       $comment->content = $request->input('content');
+       $comment->post_id = $request->input('post_id');
+
+       $comment->save();
+
+       return redirect("/blog/{$post->id}")->with("success","Comment added successfulu");
     }
 
     /**
@@ -38,8 +50,7 @@ class CommentController extends Controller
      */
     public function show(string $id)
     {
-        $comment = Comment::find($id);
-        return view('Comment.show', ['comment' => $comment, 'Pagetitle' => 'Comment Details']);
+        return Redirect(to: '/blog');
     }
 
     /**
@@ -47,8 +58,7 @@ class CommentController extends Controller
      */
     public function edit(string $id)
     {
-        $comment = Comment::find($id);
-        return view('Comment.edit', ['comment' => $comment, 'Pagetitle' => 'Edit Comment']);
+       
     }
 
     /**
@@ -56,7 +66,7 @@ class CommentController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //@todo: validate the request data and update the comment
+
     }
 
     /**
@@ -64,6 +74,6 @@ class CommentController extends Controller
      */
     public function destroy(string $id)
     {
-        //@todo: find the comment by id and delete it
+
     }
 }

@@ -8,13 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Post extends Model
 {
     use HasFactory;
-    
+
     use HasUuids;
     protected $primaryKey = 'id';
     protected $keyType = 'string';//uuid
     public $incrementing = false;
     protected $table = 'post';
-    protected $fillable = ['title', 'body', 'published'];
+    protected $fillable = ['title', 'body','author', 'published'];
 
     protected $guarded = ['id'];//cant be updated
 
